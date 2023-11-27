@@ -139,7 +139,7 @@ class _OverviewState extends State<Overview> {
         });
       },
       child: Container(
-        color: _selectedRow == index ? Colors.green[300] : null,
+        color: _selectedRow == index ? Colors.green[300] : Colors.white,
         child: Row(
           children: [
             _buildContainer(
@@ -182,6 +182,7 @@ class _OverviewState extends State<Overview> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('บันทึกข้อมูลลูก'),
 
@@ -195,118 +196,130 @@ class _OverviewState extends State<Overview> {
           },
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.7,
-              width: width * 0.9,
-              child: Column(
-                children: [
-                  _header(),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: babies.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _dataRow(babies[index], index);
-                      },
-                    ),
+      body: Column(
+        children: [
+          Container(
+            height: height * 0.7,
+            width: width * 0.902,
+            child: Column(
+              children: [
+                _header(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: babies.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _dataRow(babies[index], index);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Container(
-              height: height * 0.2,
-              width: width,
-              child: Column(
-                children: [
-                  _selectedRow != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: width * 0.45,
-                                alignment: Alignment.center,
-                                child: CustomButton(
-                                    color: Colors.greenAccent,
-                                    text: 'อัพเดท ',
+          ),
+          Container(
+            height: height * 0.2,
+            width: width,
+            child: Column(
+              children: [
+                _selectedRow != null
+                    ? Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: height * 0.08,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: width * 0.45,
+                                  alignment: Alignment.center,
+                                  child: CustomButton(
+                                      color: Colors.greenAccent,
+                                      text: 'อัพเดท ',
+                                      onPressed: () {
+                                        if (_selectedRow != null) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/savegrowth',
+                                          );
+                                          data['name_baby'] =
+                                              babies[_selectedRow!].name;
+                                          data['gender'] =
+                                              babies[_selectedRow!].gender;
+                                          data['birthdate'] =
+                                              babies[_selectedRow!].birthdate;
+
+                                          setState(() {});
+                                        }
+                                      }),
+                                ),
+                                Container(
+                                  width: width * 0.45,
+                                  alignment: Alignment.center,
+                                  child: CustomButton(
+                                    color: Colors.red,
+                                    text: 'ลบข้อมูล',
                                     onPressed: () {
                                       if (_selectedRow != null) {
-                                        Navigator.pushNamed(
-                                          context,
-                                          '/savegrowth',
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text('แจ้งเตือน'),
+                                            content: Text(
+                                                'คุณต้องการลบ ${babies[_selectedRow!].name} ใช่หรือไม่'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('ตกลง'),
+                                                onPressed: () {
+                                                  _deleteBaby(
+                                                      babies[_selectedRow!]
+                                                          .name!);
+                                                  _selectedRow = null;
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('ยกเลิก'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         );
-                                        data['name_baby'] =
-                                            babies[_selectedRow!].name;
-                                        data['gender'] =
-                                            babies[_selectedRow!].gender;
-                                        data['birthdate'] =
-                                            babies[_selectedRow!].birthdate;
-
-                                        setState(() {});
                                       }
-                                    }),
-                              ),
-                              Container(
-                                width: width * 0.45,
-                                alignment: Alignment.center,
-                                child: CustomButton(
-                                  color: Colors.red,
-                                  text: 'ลบข้อมูล',
-                                  onPressed: () {
-                                    if (_selectedRow != null) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text('แจ้งเตือน'),
-                                          content: Text(
-                                              'คุณต้องการลบ ${babies[_selectedRow!].name} ใช่หรือไม่'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: Text('ตกลง'),
-                                              onPressed: () {
-                                                _deleteBaby(
-                                                    babies[_selectedRow!]
-                                                        .name!);
-                                                _selectedRow = null;
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: Text('ยกเลิก'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                  },
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(
-                          width: width * 0.9,
-                          alignment: Alignment.center,
-                          child: CustomButton(
-                            color: Colors.pink,
-                            text: 'สร้างข้อมูลลูก',
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/addbaby');
-                              setState(() {});
-                            },
+                              ],
+                            ),
                           ),
                         ),
-                ],
-              ),
+                      )
+                    : Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: height * 0.08,
+                            width: width * 0.9,
+                            alignment: Alignment.center,
+                            child: CustomButton(
+                              color: Colors.pink,
+                              text: 'สร้างข้อมูลลูก',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/addbaby');
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

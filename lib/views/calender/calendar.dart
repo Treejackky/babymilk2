@@ -35,7 +35,7 @@ class _CalendarState extends State<Calendar> {
     _selectedDay = ValueNotifier(DateTime.now());
     _calendarFormat = CalendarFormat.month;
     _focusedDay = DateTime.now();
-    _fridgeTypeController.text = 'ช่องฟรีส';
+    _fridgeTypeController.text = 'ฝาเดียว';
     _loadCalendarData();
   }
 
@@ -55,6 +55,7 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('ปฏิทิน'),
       ),
@@ -136,6 +137,7 @@ class _CalendarState extends State<Calendar> {
               ),
               if (_showForm)
                 Container(
+                    alignment: Alignment.bottomCenter,
                     height: MediaQuery.of(context).size.height * 0.5,
                     child: _buildForm()),
             ],
@@ -158,6 +160,7 @@ class _CalendarState extends State<Calendar> {
               Text(_milkAmountController.text.isNotEmpty
                   ? _milkAmountController.text
                   : '0'),
+              Text('ถุง'),
               Row(
                 children: [
                   IconButton(
@@ -178,7 +181,7 @@ class _CalendarState extends State<Calendar> {
               Expanded(
                 child: Text('ประเภทตู้เย็น'),
               ),
-              Text('ช่องฟรีส'),
+              Text('ฝาเดียว'),
             ],
           ),
           SizedBox(height: 20),
@@ -241,7 +244,7 @@ class _CalendarState extends State<Calendar> {
 
   void _loadDataForSelectedDay(DateTime day) {
     CalendarEntry? entry = _calendarData[day];
-    _fridgeTypeController.text = 'ช่องฟรีส';
+    _fridgeTypeController.text = 'ฝาเดียว';
     if (entry != null) {
       _milkAmountController.text = entry.milkAmount;
       _fridgeTypeController.text = entry.fridgeType;
@@ -253,7 +256,7 @@ class _CalendarState extends State<Calendar> {
 
   void _saveFormData() {
     String milkAmount = _milkAmountController.text;
-    String fridgeType = 'ช่องฟรีส';
+    String fridgeType = 'ฝาเดียว';
     DateTime selectedDate = _selectedDay.value;
 
     if (milkAmount.isNotEmpty && fridgeType.isNotEmpty) {
@@ -269,7 +272,7 @@ class _CalendarState extends State<Calendar> {
           bottlemilk: int.tryParse(milkAmount) ?? 0,
           startdate: selectedDate.toString(),
           expdate: _calculateExpirationDate(),
-          typefreze: 'ช่องฟรีส',
+          typefreze: 'ฝาเดียว',
         );
         NotesDatabase.instance.insertMom(mom);
       });

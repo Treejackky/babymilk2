@@ -22,10 +22,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = Color.fromARGB(255, 242, 238, 245);
+    var color = Color(0xFF9FDBF7);
     return MaterialApp(
       theme: ThemeData(
         //appbar theme
+        fontFamily: 'Kanit',
         appBarTheme: AppBarTheme(
           //center title
           centerTitle: true,

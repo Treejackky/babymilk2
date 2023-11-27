@@ -160,7 +160,7 @@ class _AddBabyState extends State<AddBaby> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.pink,
+                    color: Color.fromARGB(255, 255, 109, 157),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -254,7 +254,7 @@ class _AddBabyState extends State<AddBaby> {
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.pink,
+                    color: Color.fromARGB(255, 255, 109, 157),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -336,19 +336,56 @@ class _AddBabyState extends State<AddBaby> {
                   child: Container(
                     height: height * 0.2,
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
                             width: width * 0.9,
                             alignment: Alignment.center,
                             child: CustomButton(
+                              color: Colors.pink,
                               text: 'บันทึกข้อมูล',
                               onPressed: () {
-                                _saveBaby();
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, '/overview', (route) => false);
+                                if (data['birthdate'] != '' &&
+                                    data['2birthmonth'] != '' &&
+                                    data['birthyear'] != '' &&
+                                    data['gender'] != '' &&
+                                    data['weight_baby'] != '' &&
+                                    data['height_baby'] != '' &&
+                                    data['radhead_baby'] != '' &&
+                                    data['radbreast_baby'] != '' &&
+                                    data['birthdate'] != null &&
+                                    data['2birthmonth'] != null &&
+                                    data['birthyear'] != null &&
+                                    data['gender'] != null &&
+                                    data['weight_baby'] != null &&
+                                    data['height_baby'] != null &&
+                                    data['radhead_baby'] != null &&
+                                    data['radbreast_baby'] != null) {
+                                  _saveBaby();
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, '/overview', (route) => false);
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text('กรุณากรอกข้อมูล'),
+                                      content: Text('กรุณากรอกข้อมูลให้ครบ'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('ตกลง'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                               },
                             ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.03,
                           ),
                         ]),
                   ),
@@ -367,7 +404,7 @@ class _AddBabyState extends State<AddBaby> {
       child: Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.pink,
+          color: Color.fromARGB(255, 255, 109, 157),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(

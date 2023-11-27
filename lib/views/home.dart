@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:babymilk2/widget/img.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -13,15 +14,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<String> list = [
-      'บันทึก\nข้อมูลลูก',
-      'บันทึก\nการเติบโต',
-      'ปฏิทิน\nการให้นม',
-      'กราฟการ\nเติบโตของลูก',
-      'คำนวนสูตร\nชงนมลูก'
+      'บันทึก\nข้อมูล',
+      'บันทึกการ\nเติบโต',
+      'ปฏิทิน\nน้ำนม',
+      'กราฟการ\nเติบโต',
+      'คำนวนสูตร\nชงนม'
+    ];
+    List<String> list2 = [
+      'girl',
+      'boy',
+      'bottel',
+      'babylugh',
+      'sleep',
     ];
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(''),
         leading: GestureDetector(
@@ -40,18 +49,16 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              //    color: Colors.blue,
               alignment: Alignment.center,
               width: width,
               height: height * 0.7,
               child: GridView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.all(0),
                 itemCount: 5,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -73,18 +80,32 @@ class _HomeState extends State<Home> {
                       }
                     },
                     child: Container(
-                      alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                        //add blur effect here
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        list[index],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: height * 0.03,
-                          color: Colors.white,
-                        ),
+                      child: Column(
+                        children: [
+                          Container(
+                              width: width * 0.3, child: Img(list2[index])),
+                          Text(
+                            list[index],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: height * 0.02,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );

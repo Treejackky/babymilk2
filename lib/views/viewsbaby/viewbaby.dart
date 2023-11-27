@@ -222,6 +222,7 @@ class _ViewBabyState extends State<ViewBaby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('ประวัติน้อง'),
       ),
@@ -234,7 +235,7 @@ class _ViewBabyState extends State<ViewBaby> {
                 final baby = babies[index];
                 return ListTile(
                   title: Text(baby.name ?? ''),
-                  subtitle: Text('Birthdate: ${baby.birthdate ?? ''}'),
+                  subtitle: Text('วันเกิด: ${baby.birthdate ?? ''}'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -315,12 +316,12 @@ class BabyHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('ประวัติน้อง${baby.name}'),
+        title: Text('ประวัติน้อง ${baby.name}'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        color: Colors.grey[200],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -338,26 +339,29 @@ class BabyHistoryScreen extends StatelessWidget {
               ],
             ),
             //fetch data from database with same name as baby.name
-            FutureBuilder<List<Baby>>(
-              future: NotesDatabase.instance.getAllBabies4('${baby.name}'),
-              builder: (context, snapshot) {
-                final growth = snapshot.data ?? [];
+            Expanded(
+              child: FutureBuilder<List<Baby>>(
+                future: NotesDatabase.instance.getAllBabies4('${baby.name}'),
+                builder: (context, snapshot) {
+                  final growth = snapshot.data ?? [];
 
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: growth.length,
-                  itemBuilder: (context, index) {
-                    final growthItem = growth[index];
-                    return Card(
-                      child: ListTile(
-                        title: Text('วันที่: ${growthItem.birthdate}'),
-                        subtitle: Text(
-                            'น้ำหนัก: ${growthItem.weight} ส่วนสูง: ${growthItem.height}'),
-                      ),
-                    );
-                  },
-                );
-              },
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: growth.length,
+                    itemBuilder: (context, index) {
+                      final growthItem = growth[index];
+                      return Card(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        child: ListTile(
+                          title: Text('วันที่: ${growthItem.birthdate}'),
+                          subtitle: Text(
+                              'น้ำหนัก: ${growthItem.weight} ส่วนสูง: ${growthItem.height}'),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),

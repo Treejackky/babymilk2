@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings, use_build_context_synchronously
+// ignore_for_file: prefer_adjacent_string_concatenation, prefer_interpolation_to_compose_strings, use_build_context_synchronously, prefer_const_constructors
 
 import 'package:babymilk2/data/data.dart';
 import 'package:babymilk2/database/database.dart';
@@ -308,27 +308,14 @@ class _SaveGrowthState extends State<SaveGrowth> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 alignment: Alignment.center,
-                height: height * 0.1,
-                width: width,
-                child: Text(
-                  'คำนวนน้ำหนัก',
-                  style: TextStyle(
-                      fontSize: height * 0.03, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                alignment: Alignment.center,
-                height: height * 0.1,
+                height: height * 0.05,
                 width: width,
                 child: Column(
                   children: [
                     Text(
                       data['name_baby'] == null || data['name_baby'] == ''
                           ? 'ชื่อลูก'
-                          : '${data['name_baby']}',
+                          : 'ชื่อน้อง  ${data['name_baby']}',
                       style: TextStyle(
                           fontSize: height * 0.03, fontWeight: FontWeight.bold),
                     ),
@@ -436,15 +423,54 @@ class _SaveGrowthState extends State<SaveGrowth> {
                     ],
                   )),
               Text(''),
-              CustomButton(
-                  text: 'คำนวนและบันทึก',
-                  onPressed: () async {
-                    await calculatewh(data['birthdate'], data['gender']);
-                    var value = (double.parse(data['weight']) * 150) / 30;
-                    data['babymilk0-30'] = value.toStringAsFixed(0);
-                    print(value);
-                    _saveBaby();
-                  })
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: height * 0.08,
+                    child: CustomButton(
+                        color: Colors.pink,
+                        text: 'คำนวนและบันทึก',
+                        onPressed: () async {
+                          if (data['weight'] != '' &&
+                              data['height'] != '' &&
+                              data['weight'] != null &&
+                              data['height'] != null) {
+                            print('333333333333333333333333');
+                            await calculatewh(
+                                data['birthdate'], data['gender']);
+                            var value =
+                                (double.parse(data['weight']) * 150) / 30;
+                            data['babymilk0-30'] = value.toStringAsFixed(0);
+                            print(value);
+                            _saveBaby();
+                          } else {
+                            print('22222222222222222222222');
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('กรุณากรอกข้อมูล'),
+                                  content: Text('กรุณากรอกข้อมูลให้ครบ'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('ตกลง'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        }),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
             ],
           ),
         ),
