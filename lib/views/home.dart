@@ -14,11 +14,11 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<String> list = [
-      'บันทึก\nข้อมูล',
-      'บันทึกการ\nเติบโต',
-      'ปฏิทิน\nน้ำนม',
-      'กราฟการ\nเติบโต',
-      'คำนวนสูตร\nชงนม'
+      'บันทึก\nข้อมูลลูก',
+      'บันทึกการ\nเจริญเติบโต',
+      'ปฏิทิน\nสต๊อกน้ำนม',
+      'กราฟแสดงการ\nเจริญเติบโต',
+      'สูตรคำนวณ\nปริมาณน้ำนม'
     ];
     List<String> list2 = [
       'girl',

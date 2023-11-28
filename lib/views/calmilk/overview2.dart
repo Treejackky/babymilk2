@@ -19,13 +19,15 @@ class _Overview2State extends State<Overview2> {
     void Calculate(double weight) {
       double value = 0.0;
       if (selectedValue == '0-30 วัน') {
-        value = (weight * 150) + 30;
+        value = (weight * 150) / 30;
       } else if (selectedValue == '1-6 เดือน') {
-        value = (weight * 120) + 30;
+        value = (weight * 120) / 30;
       } else if (selectedValue == '6-12 เดือน') {
-        value = (weight * 110) + 30;
+        value = (weight * 110) / 30;
       }
-      data['result'] = value.toString();
+      setState(() {
+        data['result'] = value.toString();
+      });
     }
 
     return GestureDetector(
@@ -36,7 +38,7 @@ class _Overview2State extends State<Overview2> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('สูตรคำนวนนมลูก'),
+          title: Text('สูตรคำนวณนมลูก'),
           leading: GestureDetector(
             onTap: () {
               data['result'] = null;
@@ -178,7 +180,7 @@ class _Overview2State extends State<Overview2> {
                           );
                         }
                       },
-                      text: 'คำนวน',
+                      text: 'คำนวณ',
                     ),
                   ),
                 ),

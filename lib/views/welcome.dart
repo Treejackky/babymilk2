@@ -56,14 +56,14 @@ class _WelcomeState extends State<Welcome> {
                   Positioned(
                       child: Column(
                     children: [
-                      Img('bottle'),
+                      Img('bottel'),
                     ],
                   )),
                 ],
               ),
             ),
             Text(
-              'แอพลิเคชั่นสำหรับการบันทึกข้อมูล\nการให้นมลูกน้อย',
+              'แอปพลิเคชั่นสำหรับการบันทึกข้อมูล\nการให้นมลูกน้อย',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: height * 0.023),
             ),

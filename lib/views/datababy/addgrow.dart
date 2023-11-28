@@ -138,7 +138,7 @@ class _SaveGrowthState extends State<SaveGrowth> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text('อายุเกิน 2 ปี'),
-                content: Text('ไม่สามารถคำนวนได้'),
+                content: Text('ไม่สามารถคำนวณได้'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -430,7 +430,7 @@ class _SaveGrowthState extends State<SaveGrowth> {
                     height: height * 0.08,
                     child: CustomButton(
                         color: Colors.pink,
-                        text: 'คำนวนและบันทึก',
+                        text: 'บันทึกข้อมูล',
                         onPressed: () async {
                           if (data['weight'] != '' &&
                               data['height'] != '' &&
